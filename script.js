@@ -103,12 +103,13 @@ const updateProgressBar = (e) => {
   }
 };
 
-const setProgressBar =(e)=>{
-  const {clientWidth} = e.srcElement;
+const setProgressBar = (e) => {
+  const { clientWidth } = e.srcElement;
   const clickX = e.offsetX;
-  console.log("width", clientWidth)
-  console.log("clickX", clickX)
-}
+  const { duration } = audio;
+  const currentTime = (clickX / clientWidth) * duration;
+  audio.currentTime = currentTime;
+};
 
 const loadSong = (song) => {
   title.textContent = song.title;
@@ -121,6 +122,7 @@ previousButton.addEventListener('click', handlePrevious);
 playButton.addEventListener('click', handlePlay);
 nextButton.addEventListener('click', handleNext);
 audio.addEventListener('timeupdate', updateProgressBar);
-progressContainer.addEventListener('click', setProgressBar)
+audio.addEventListener('ended', handleNext);
+progressContainer.addEventListener('click', setProgressBar);
 
 loadSong(musicData[songIndex]);
